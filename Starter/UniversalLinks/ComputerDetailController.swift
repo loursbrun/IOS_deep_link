@@ -57,4 +57,29 @@ class ComputerDetailController: UIViewController {
     super.viewDidAppear(animated)
     txtDescription.isScrollEnabled = true
   }
+    
+    func application(_ application: UIApplication,
+                     continue userActivity: NSUserActivity,
+                     restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        
+        // 1
+        guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+            let url = userActivity.webpageURL,
+            let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
+                return false
+        }
+        
+        // 2
+        if let computer = ItemHandler.sharedInstance.items.filter({ $0.path == components.path}).first {
+            self.presentDetailViewController(computer)
+            return true
+        }
+        
+        // 3
+        let webpageUrl = URL(string: "http://rw-universal-links-final.herokuapp.com")!
+        application.openURL(webpageUrl)
+        
+        return false
+    }
+
 }

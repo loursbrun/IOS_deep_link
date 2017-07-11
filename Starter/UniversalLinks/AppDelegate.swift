@@ -31,5 +31,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     UINavigationBar.appearance().tintColor = UIColor.white
     return true
   }
+    
+    func presentDetailViewController(_ computer: Computer) {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let detailVC = storyboard.instantiateViewController(withIdentifier: "NavigationController")
+            as! ComputerDetailController
+        detailVC.item = computer
+        
+        let navigationVC = storyboard.instantiateViewController(withIdentifier: "DetailController")
+            as! UINavigationController
+        navigationVC.modalPresentationStyle = .formSheet
+        
+        navigationVC.pushViewController(detailVC, animated: true)
+    }
   
 }
